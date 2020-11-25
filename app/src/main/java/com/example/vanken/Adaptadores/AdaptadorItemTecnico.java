@@ -17,23 +17,18 @@ import java.util.ArrayList;
 
 public class AdaptadorItemTecnico extends RecyclerView.Adapter<AdaptadorItemTecnico.ViewHolderDatos>
         implements View.OnClickListener{
-        ArrayList<Tecnico> arrayList;
-        Context context;
-        private View.OnClickListener listener;
+    ArrayList<Tecnico> arrayList;
+    Context context;
+    private View.OnClickListener listener;
     public AdaptadorItemTecnico(ArrayList<Tecnico> arrayList) {
-            this.arrayList = arrayList;
-        }
-
-
-
+        this.arrayList = arrayList;
+    }
     @Override
-        public void onClick(View v) {
-            if(listener!=null){
-                listener.onClick(v);
-            }
+    public void onClick(View v) {
+        if(listener!=null){
+            listener.onClick(v);
         }
-
-
+    }
     @NonNull
     @Override
     public ViewHolderDatos onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -42,27 +37,30 @@ public class AdaptadorItemTecnico extends RecyclerView.Adapter<AdaptadorItemTecn
         context=parent.getContext();
         return new AdaptadorItemTecnico.ViewHolderDatos(view);
     }
-
     @Override
-        public void onBindViewHolder(@NonNull ViewHolderDatos holder, int position) {
-
+    public void onBindViewHolder(@NonNull ViewHolderDatos holder, int position) {
+        holder.asignarDatos(arrayList.get(position));
+    }
+    @Override
+    public int getItemCount() {
+        return arrayList.size();
+    }
+    public void setOnClickListener(View.OnClickListener listener){//asociamos el listener del fragment al que estamos
+        this.listener=listener;                                     //construyend
+    }
+    public class ViewHolderDatos extends RecyclerView.ViewHolder {
+        TextView nombre,telefono, cal;
+        public ViewHolderDatos(@NonNull View itemView) {
+            super(itemView);
+            nombre=itemView.findViewById(R.id.textViewNombreTecnicoItemList);
+            telefono=itemView.findViewById(R.id.textViewTelefonoTecnicoItemList);
+            cal=itemView.findViewById(R.id.textViewCalificacionTecnicoItemList);
         }
-        @Override
-        public int getItemCount() {
-            return arrayList.size();
-        }
-        public void setOnClickListener(View.OnClickListener listener){//asociamos el listener del fragment al que estamos
-            this.listener=listener;                                     //construyend
-        }
-        public class ViewHolderDatos extends RecyclerView.ViewHolder {
-            TextView nombre, telefono;
 
-
-            public ViewHolderDatos(@NonNull View itemView) {
-                super(itemView);
-                nombre=itemView.findViewById(R.id.textViewNombreTecnicoItemList);
-                telefono=itemView.findViewById(R.id.textViewTelefonoTecnicoItemList);
-            }
-
+        public void asignarDatos(Tecnico tecnico) {
+            nombre.setText(tecnico.getNombre());
+            telefono.setText(tecnico.getNumero());
+            cal.setText((Double.toString(tecnico.getCalificacion())));
         }
+    }
 }

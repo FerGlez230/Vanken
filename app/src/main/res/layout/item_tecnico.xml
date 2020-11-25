@@ -1,19 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin">
     <TextView
-        android:layout_margin="@dimen/margin"
         android:id="@+id/textViewNombreTecnicoItemList"
         android:textColor="@color/gray"
         android:textSize="@dimen/letraPrincipal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></TextView>
-    <TextView
-        android:layout_margin="@dimen/margin"
-        android:id="@+id/textViewTelefonoTecnicoItemList"
-        android:textColor="@color/grayLight"
-        android:textSize="@dimen/letraSecundaria"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></TextView>
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/margin_small"></TextView>
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal">
+       <TextView
+           android:id="@+id/textViewTelefonoTecnicoItemList"
+           android:textColor="@color/grayLight"
+           android:textSize="@dimen/letraSecundaria"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:paddingBottom="@dimen/margin_small"></TextView>
+       <TextView
+           android:id="@+id/textViewCalificacionTecnicoItemList"
+           android:textColor="@color/grayLight"
+           android:textSize="@dimen/letraSecundaria"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:paddingLeft="@dimen/margin"
+           android:paddingBottom="@dimen/margin_small"></TextView>
+   </LinearLayout>
+
 </LinearLayout>
