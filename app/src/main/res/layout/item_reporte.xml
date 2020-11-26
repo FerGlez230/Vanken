@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/margin">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/textViewNombreReporteItemList"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/letraPrincipal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/margin_small"></TextView>
+        <TextView
+            android:id="@+id/textViewFechaReporteItemList"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/letraPrincipal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/margin"
+            android:paddingBottom="@dimen/margin_small"></TextView>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/textViewCuerpoReporteItemList"
+        android:textColor="@color/grayLight"
+        android:textSize="@dimen/letraSecundaria"
+        android:justificationMode="inter_word"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="@dimen/margin"
+        android:paddingBottom="@dimen/margin_small"></TextView>
+
+
+</LinearLayout>
