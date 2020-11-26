@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".AgregarTecnicoFragment"
     >
     <ScrollView
@@ -24,7 +25,7 @@
                     android:id="@+id/imageView11"
                     android:layout_gravity="center_horizontal"
                     android:layout_width="145dp"
-                    android:layout_weight="1"
+                    android:layout_marginLeft="@dimen/margin_large"
                     android:layout_height="146dp"
                     android:src="@mipmap/user_icon" />
 
@@ -32,7 +33,7 @@
                     android:id="@+id/imgBtnImagenRegistro"
                     android:layout_width="wrap_content"
                     android:layout_gravity="bottom"
-                    android:layout_weight="1"
+
                     android:layout_height="wrap_content"
                     android:background="#00FFFFFF"
                     android:src="@android:drawable/ic_menu_edit" />
