@@ -42,7 +42,8 @@ public class MainAdmin extends AppCompatActivity  {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                showSelectedFragment(new AgregarTecnicoFragment());
+                //showSelectedFragment(new AgregarTecnicoFragment());
+               // NavController navController = Navigation.findNavController(MainAdmin.this, R.id.action_a_agregar_tecnico);
             }
 
         });

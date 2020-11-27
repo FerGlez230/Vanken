@@ -4,23 +4,22 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.vanken.Modelos.Tecnico;
+import com.example.vanken.Modelos.Persona;
 import com.example.vanken.R;
 
 import java.util.ArrayList;
 
 public class AdaptadorItemTecnico extends RecyclerView.Adapter<AdaptadorItemTecnico.ViewHolderDatos>
         implements View.OnClickListener{
-    ArrayList<Tecnico> arrayList;
+    ArrayList<Persona> arrayList;
     Context context;
     private View.OnClickListener listener;
-    public AdaptadorItemTecnico(ArrayList<Tecnico> arrayList) {
+    public AdaptadorItemTecnico(ArrayList<Persona> arrayList) {
         this.arrayList = arrayList;
     }
     @Override
@@ -57,10 +56,10 @@ public class AdaptadorItemTecnico extends RecyclerView.Adapter<AdaptadorItemTecn
             cal=itemView.findViewById(R.id.textViewCalificacionTecnicoItemList);
         }
 
-        public void asignarDatos(Tecnico tecnico) {
-            nombre.setText(tecnico.getNombre());
-            telefono.setText(tecnico.getNumero());
-            cal.setText((Double.toString(tecnico.getCalificacion())));
+        public void asignarDatos(Persona persona) {
+            nombre.setText(persona.getNombre());
+            telefono.setText(persona.getNumero());
+            cal.setText((Double.toString(persona.getCalificacion())));
         }
     }
 }

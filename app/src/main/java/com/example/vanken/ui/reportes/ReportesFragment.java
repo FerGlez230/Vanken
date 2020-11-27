@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
@@ -15,9 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vanken.Adaptadores.AdaptadorItemReporte;
-import com.example.vanken.Adaptadores.AdaptadorItemTecnico;
 import com.example.vanken.Modelos.Reporte;
-import com.example.vanken.Modelos.Tecnico;
 import com.example.vanken.R;
 
 import java.util.ArrayList;
