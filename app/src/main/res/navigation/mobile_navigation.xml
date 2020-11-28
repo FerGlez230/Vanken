@@ -15,18 +15,38 @@
         android:id="@+id/nav_tecnicos"
         android:name="com.example.vanken.ui.tecnicos.TecnicosFragment"
         android:label="@string/menu_tecnicos"
-        tools:layout="@layout/fragment_tecnicos" />
-
+        tools:layout="@layout/fragment_tecnicos" >
+        <action android:id="@+id/action_a_detalle_tecnico"
+            app:destination="@id/detalleTecnico"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+    </fragment>
+    <action android:id="@+id/action_a_agregar_tecnico"
+        app:destination="@id/agregarTecnico"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
     <fragment
         android:id="@+id/nav_reportes"
         android:name="com.example.vanken.ui.reportes.ReportesFragment"
         android:label="@string/menu_reportes"
         tools:layout="@layout/fragment_reportes" />
-
+    <fragment
+        android:id="@+id/detalleTecnico"
+        android:name="com.example.vanken.ui.tecnicos.DetalleTecnicoFragment"
+        android:label="detalleTecnico"
+        tools:layout="@layout/fragment_detalle_tecnico" />
     <fragment
         android:id="@+id/nav_tools"
         android:name="com.example.vanken.ui.tools.ConfiguracionesFragment"
         android:label="@string/menu_tools"
         tools:layout="@layout/fragment_configuraciones" />
-
+    <fragment
+        android:id="@+id/agregarTecnico"
+        android:name="com.example.vanken.AgregarTecnicoFragment"
+        android:label="@string/agregarTecnico"
+        tools:layout="@layout/fragment_agregar_tecnico" />
 </navigation>

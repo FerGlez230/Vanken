@@ -42,11 +42,13 @@
                 android:id="@+id/editTextNombreAgregarTecnico"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_small"
                 android:hint="@string/nombre"></EditText>
                 <EditText
                     android:id="@+id/editTextApellidosAgregarTecnico"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_small"
                     android:hint="@string/apellidos"></EditText>
 
             <EditText
@@ -54,27 +56,37 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/telefono"
+                android:layout_marginBottom="@dimen/margin_small"
                 android:inputType="phone"></EditText>
 
             <EditText
                 android:id="@+id/editTextUsernameAgregarTecnico"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_small"
                 android:hint="@string/user"
                 ></EditText>
             <EditText
                 android:id="@+id/editTextPasswordAgregarTecnico"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_small"
                 android:hint="@string/password"
                 ></EditText>
             <EditText
                 android:id="@+id/editTextConfirmarPasswordAgregarTecnico"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_small"
                 android:hint="@string/confirmarPassword"
                 ></EditText>
-
+            <EditText
+                android:id="@+id/editTextRangoAgregarTecnico"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:hint="@string/rango"
+                ></EditText>
             <Button
                 android:id="@+id/btnAgregarTecnico"
                 android:layout_width="wrap_content"
