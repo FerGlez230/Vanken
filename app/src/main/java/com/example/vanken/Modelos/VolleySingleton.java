@@ -12,10 +12,10 @@ public final class VolleySingleton {
         private RequestQueue requestQueue;
         private static Context context;
         private JsonObjectRequest jsonObjectRequest;
-        private VolleySingleton(Context context)
+        public VolleySingleton(Context context)
         {
-            VolleySingleton.context=context;
-            requestQueue=getRequestQueue();
+            VolleySingleton.context = context;
+            requestQueue = getRequestQueue();
         }
         /**
          * Retorna la unica instancia del singleton
