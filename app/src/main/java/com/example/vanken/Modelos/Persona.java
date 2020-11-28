@@ -2,15 +2,25 @@ package com.example.vanken.Modelos;
 
 public class Persona {
 private String nombre;
+private String apellido;
 private String numero;
 private int id;
 private double calificacion;
 
-    public Persona(int id, String nombre, String numero, double calificacion) {
-        this.id=id;
+    public Persona(int id,String nombre, String apellido, String numero, double calificacion) {
         this.nombre = nombre;
+        this.apellido = apellido;
         this.numero = numero;
+        this.id = id;
         this.calificacion = calificacion;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
     }
 
     public int getId() {

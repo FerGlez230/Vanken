@@ -62,9 +62,6 @@ public class MainAdmin extends AppCompatActivity  {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
     }
-    private void showSelectedFragment(Fragment fragment){
-        getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,fragment).commit();
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
