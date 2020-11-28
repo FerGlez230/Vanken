@@ -28,6 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -60,13 +61,28 @@ public class TecnicosFragment extends Fragment {
    private void setListaRecycler(JSONObject jsonObject) {
        JSONArray jsonArray;
        Persona p;
+       Double cal;
        personas = new ArrayList<Persona>();
        try {
            jsonArray = jsonObject.getJSONArray("lista");
-           Toast.makeText(getContext(), jsonArray.toString(), Toast.LENGTH_SHORT).show();
            for (int i = 0; i < jsonArray.length(); i++) {
 
+               if(jsonArray.getJSONObject(i).getString("Calificacion").equals("null"))
+                   cal=0.0;
+               else {
+                   cal = Double.parseDouble(jsonArray.getJSONObject(i).getString("Calificacion"));
+               }
+               DecimalFormat format = new DecimalFormat();
+               format.setMaximumFractionDigits(2); //Define 2 decimales.
+               //Toast.makeText(getContext(), Double.toString( cal), Toast.LENGTH_SHORT).show();
+               p = new Persona(
+                       1,
+                       jsonArray.getJSONObject(i).getString("nombre"),
+                       jsonArray.getJSONObject(i).getString("apellidos"),
+                       jsonArray.getJSONObject(i).getString("telefono"),
+                       Double.parseDouble(format.format(cal)));
 
+               personas.add(p);
            }
            recyclerViewTecnicos.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
            adaptador = new AdaptadorItemTecnico(personas);

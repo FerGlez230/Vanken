@@ -59,7 +59,7 @@ public class AdaptadorItemTecnico extends RecyclerView.Adapter<AdaptadorItemTecn
         public void asignarDatos(Persona persona) {
             nombre.setText(persona.getNombre());
             telefono.setText(persona.getNumero());
-            cal.setText((Double.toString(persona.getCalificacion())));
+            cal.setText(Double.toString(persona.getCalificacion()));
         }
     }
 }

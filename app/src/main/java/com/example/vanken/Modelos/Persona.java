@@ -5,9 +5,9 @@ private String nombre;
 private String apellido;
 private String numero;
 private int id;
-private double calificacion;
+private Double calificacion;
 
-    public Persona(int id,String nombre, String apellido, String numero, double calificacion) {
+    public Persona(int id,String nombre, String apellido, String numero, Double calificacion) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.numero = numero;
@@ -31,11 +31,11 @@ private double calificacion;
         this.id = id;
     }
 
-    public double getCalificacion() {
+    public Double getCalificacion() {
         return calificacion;
     }
 
-    public void setCalificacion(double calificacion) {
+    public void setCalificacion(Double calificacion) {
         this.calificacion = calificacion;
     }
 
