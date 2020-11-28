@@ -7,11 +7,13 @@ import com.google.android.material.snackbar.Snackbar;
 
 import android.view.View;
 
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
@@ -40,10 +42,12 @@ public class MainAdmin extends AppCompatActivity  {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        //.setAction("Action", null).show();
                 //showSelectedFragment(new AgregarTecnicoFragment());
-               // NavController navController = Navigation.findNavController(MainAdmin.this, R.id.action_a_agregar_tecnico);
+                NavHostFragment navHostFragment = (NavHostFragment) MainAdmin.this.getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+                NavController navController = navHostFragment.getNavController();
+                navController.navigate(R.id.agregarTecnico);
             }
 
         });

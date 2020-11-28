@@ -38,15 +38,12 @@ public class TecnicosFragment extends Fragment {
         tecnicosViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                //textView.setText(s);
             }
         });
-
         setListaRecycler();
         return root;
     }
    private void setListaRecycler() {
-    //DATOS DE PRUEBA
         personas =new ArrayList<Persona>();
         Persona t=new Persona(1,"María Fernanda Gonzalez", "3311083607",5);
         personas.add(t);
@@ -72,7 +69,5 @@ public class TecnicosFragment extends Fragment {
        });
         recyclerViewTecnicos.setAdapter(adaptador);
 }
-    private void showSelectedFragment(Fragment fragment){
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,fragment).addToBackStack(null).commit();
-    }
+
 }
