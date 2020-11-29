@@ -37,7 +37,7 @@
     <fragment
         android:id="@+id/detalleTecnico"
         android:name="com.example.vanken.ui.tecnicos.DetalleTecnicoFragment"
-        android:label="detalleTecnico"
+        android:label="Detalle técnico"
         tools:layout="@layout/fragment_detalle_tecnico" />
     <fragment
         android:id="@+id/nav_tools"

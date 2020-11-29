@@ -19,6 +19,7 @@ public class AdaptadorItemTecnico extends RecyclerView.Adapter<AdaptadorItemTecn
     ArrayList<Persona> arrayList;
     Context context;
     private View.OnClickListener listener;
+    private  View.OnLongClickListener longClickListener;
     public AdaptadorItemTecnico(ArrayList<Persona> arrayList) {
         this.arrayList = arrayList;
     }
@@ -28,16 +29,26 @@ public class AdaptadorItemTecnico extends RecyclerView.Adapter<AdaptadorItemTecn
             listener.onClick(v);
         }
     }
+    /*@Override
+    public boolean onLongClick(View v) {
+        if(longClickListener!=null){
+            longClickListener.onLongClick(v);
+        }
+        return true;
+    }*/
     @NonNull
     @Override
     public ViewHolderDatos onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tecnico,null,false);
         view.setOnClickListener(this);
+        //view.setLongClickable(true);
+        //view.setOnLongClickListener(this);
         context=parent.getContext();
         return new AdaptadorItemTecnico.ViewHolderDatos(view);
     }
     @Override
     public void onBindViewHolder(@NonNull ViewHolderDatos holder, int position) {
+        //holder.itemView.setLongClickable(true);
         holder.asignarDatos(arrayList.get(position));
     }
     @Override
@@ -47,6 +58,10 @@ public class AdaptadorItemTecnico extends RecyclerView.Adapter<AdaptadorItemTecn
     public void setOnClickListener(View.OnClickListener listener){//asociamos el listener del fragment al que estamos
         this.listener=listener;                                     //construyend
     }
+    /*public void setOnLongClickListener(View.OnLongClickListener listener){
+        this.longClickListener=listener;
+    }*/
+
     public class ViewHolderDatos extends RecyclerView.ViewHolder {
         TextView nombre,telefono, cal;
         public ViewHolderDatos(@NonNull View itemView) {
@@ -57,9 +72,9 @@ public class AdaptadorItemTecnico extends RecyclerView.Adapter<AdaptadorItemTecn
         }
 
         public void asignarDatos(Persona persona) {
-            nombre.setText(persona.getNombre());
+            nombre.setText(persona.getNombre().concat(" ").concat(persona.getApellido()));
             telefono.setText(persona.getNumero());
-            cal.setText(Double.toString(persona.getCalificacion()));
+            cal.setText(persona.getCalificacion());
         }
     }
 }

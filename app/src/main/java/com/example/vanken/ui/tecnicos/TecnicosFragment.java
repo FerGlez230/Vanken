@@ -1,9 +1,12 @@
 package com.example.vanken.ui.tecnicos;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -12,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,68 +44,120 @@ public class TecnicosFragment extends Fragment {
     private AdaptadorItemTecnico adaptador;
     private ArrayList<Persona> personas;
     private VolleySingleton volleySingleton;
+    private Switch aSwitch;
+    private Map map;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         tecnicosViewModel =
                 ViewModelProviders.of(this).get(TecnicosViewModel.class);
         View root = inflater.inflate(R.layout.fragment_tecnicos, container, false);
         recyclerViewTecnicos=(RecyclerView)root.findViewById(R.id.recyclerListaTecnicos);
+        aSwitch=(Switch)root.findViewById(R.id.switchMejorTecnico);
         //Codigo generado
         tecnicosViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
             }
         });
-        Map map=new HashMap();
+        map=new HashMap();
         map.put("funcion", "tecnicosAlfabeto");
         llamarWebService(map,0);
+        aSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(aSwitch.isChecked()){
+                    recyclerViewTecnicos.invalidate();
+                    map.put("funcion", "tecnicosCalificacion");
+                    llamarWebService(map,1);
+                    //Toast.makeText(getContext(), "Activo", Toast.LENGTH_SHORT).show();
+                }else{
+                    recyclerViewTecnicos.invalidate();
+                    map.put("funcion", "tecnicosAlfabeto");
+                    llamarWebService(map,0);
+                }
+            }
+        });
+
+
 
         return root;
     }
    private void setListaRecycler(JSONObject jsonObject) {
+
        JSONArray jsonArray;
        Persona p;
-       Double cal;
+       String cal;
        personas = new ArrayList<Persona>();
        try {
            jsonArray = jsonObject.getJSONArray("lista");
+           //Toast.makeText(getContext(), jsonArray.toString(), Toast.LENGTH_SHORT).show();
            for (int i = 0; i < jsonArray.length(); i++) {
-
                if(jsonArray.getJSONObject(i).getString("Calificacion").equals("null"))
-                   cal=0.0;
+                   cal="No aplica";
                else {
-                   cal = Double.parseDouble(jsonArray.getJSONObject(i).getString("Calificacion"));
+                   DecimalFormat format = new DecimalFormat();
+                   format.setMaximumFractionDigits(2); //Define 2 decimales.
+                   Double d=Double.parseDouble(jsonArray.getJSONObject(i).getString("Calificacion"));
+                   format.format(d);
+                   cal =Double.toString(d) ;
                }
-               DecimalFormat format = new DecimalFormat();
-               format.setMaximumFractionDigits(2); //Define 2 decimales.
+
+
                //Toast.makeText(getContext(), Double.toString( cal), Toast.LENGTH_SHORT).show();
                p = new Persona(
-                       1,
+                       Integer.parseInt(jsonArray.getJSONObject(i).getString("id")),
                        jsonArray.getJSONObject(i).getString("nombre"),
                        jsonArray.getJSONObject(i).getString("apellidos"),
                        jsonArray.getJSONObject(i).getString("telefono"),
-                       Double.parseDouble(format.format(cal)));
+                       cal);
 
                personas.add(p);
            }
            recyclerViewTecnicos.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+           recyclerViewTecnicos.addItemDecoration(new DividerItemDecoration(
+                   getContext(),
+                   DividerItemDecoration.VERTICAL));
            adaptador = new AdaptadorItemTecnico(personas);
            adaptador.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
                    Bundle bundle = new Bundle();
                    bundle.putInt("id", personas.get(recyclerViewTecnicos.getChildAdapterPosition(v)).getId());
-                   Toast.makeText(getContext(), personas.get(recyclerViewTecnicos.getChildAdapterPosition(v)).getNombre(), Toast.LENGTH_SHORT).show();
-                   Fragment fragment = new DetalleTecnicoFragment();
-                   fragment.setArguments(bundle);
-                   NavHostFragment.findNavController(TecnicosFragment.this).navigate(R.id.detalleTecnico);
+                   NavHostFragment.findNavController(TecnicosFragment.this).navigate(R.id.detalleTecnico,bundle);
                }
            });
+            /*adaptador.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Toast.makeText(getContext(),"Hola", Toast.LENGTH_SHORT).show();
+                    //crearAlertDialog(personas.get(recyclerViewTecnicos.getChildAdapterPosition(v)).getId());
+                    return true;
+                }
+            });*/
            recyclerViewTecnicos.setAdapter(adaptador);
        } catch (JSONException e) {
            e.printStackTrace();
        }
    }
+    public void crearAlertDialog(int id){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+// Add the buttons
+        builder.setMessage("¿Que desea hacer con "+personas.get(id).getNombre()+" "+personas.get(id).getApellido()+"?");
+        builder.setPositiveButton(R.string.editar, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked OK button
+            }
+        });
+        builder.setNegativeButton(R.string.eliminar, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancelled the dialog
+            }
+        });
+// Set other dialog properties
+
+// Create the AlertDialog
+        AlertDialog dialog = builder.create();
+    }
        public void llamarWebService(Map<String, String> map, final int t){
         String url="https://www.solfeggio528.com/vanken/webservice.php";
         // Request a string response from the provided URL.
@@ -115,7 +171,8 @@ public class TecnicosFragment extends Fragment {
                                     switch (t){
                                         case 0: if(jsonObject.getBoolean("respuesta"))
                                                     setListaRecycler(jsonObject); break;
-                                        case 1: break;
+                                        case 1: if(jsonObject.getBoolean("respuesta"))
+                                            setListaRecycler(jsonObject); break;
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();

@@ -25,6 +25,11 @@
     <string name="menu_tools">Configuraciones</string>
     <string name="calificacion">Calificación</string>
     <string name="rango">Rango en km</string>
+    <string name="alfabeticamente">A-Z</string>
+    <string name="editar">Editar</string>
+    <string name="cliente">Cliente</string>
+    <string name="tecnico">Tecnico</string>
+    <string name="eliminar">Eliminar</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_main_cliente">MainCliente</string>

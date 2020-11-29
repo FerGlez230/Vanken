@@ -9,13 +9,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <Switch
-            android:id="@+id/switchReportes"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_marginTop="@dimen/margin"
+            android:layout_marginRight="@dimen/margin_small"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/mejorTecnico" />
+            android:gravity="right"
+            android:orientation="horizontal">
+            <Switch
+                android:id="@+id/switchReportes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/letraSecundaria"
+                android:layout_gravity="right"
+                android:textColor="@color/grayLight"
+                android:text="@string/cliente"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/grayLight"
+                android:textSize="@dimen/letraSecundaria"
+                android:text="@string/tecnico"
+                android:layout_marginRight="@dimen/margin">
+
+            </TextView>
+        </LinearLayout>
+
 
         <ScrollView
             android:layout_width="match_parent"

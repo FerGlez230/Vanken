@@ -37,7 +37,7 @@
                 android:textColor="@color/gray"
                 android:textSize="@dimen/letraPrincipal"
                 android:layout_marginBottom="@dimen/margin"
-                android:text="María Fernanda"></TextView>
+                android:text=""></TextView>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
                 android:textColor="@color/gray"
                 android:textSize="@dimen/letraPrincipal"
                 android:layout_marginBottom="@dimen/margin"
-                android:text="González Lozano"></TextView>
+                android:text=""></TextView>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
