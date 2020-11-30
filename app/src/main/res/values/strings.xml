@@ -37,4 +37,14 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="historico">Historico</string>
+    <string name="servicios_disponibles">Servicios Disponibles</string>
+    <string name="log_out">Log out</string>
+    <string name="configuraci_n">Configuración</string>
+    <string name="imagenusuario">ImagenUsuario</string>
+    <string name="nav_close_tec">Cerrar Nav</string>
+    <string name="nav_open_tec">Abrir Nav</string>
+    <string name="todo">TODO</string>
+    <string name="olvidaste_tu_contrase_a">¿Olvidaste tu contraseña?</string>
+    <string name="a_n_sin_cuenta_reg_strate">¿Aún sin cuenta? Regístrate</string>
 </resources>

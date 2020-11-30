@@ -54,7 +54,9 @@ public class LoginActivity extends AppCompatActivity {
                                 if (response.getBoolean("respuesta") == true) {
                                     String tipo = response.getString("tipo");
                                     if (tipo.contentEquals("Tecnico")){
-
+                                        Intent intent =  new Intent(v.getContext(), MainTecnicoActivity.class);
+                                        startActivity(intent);
+                                        finish();
                                     }
                                     else if(tipo.contentEquals("Admin")){
                                         Intent intent =  new Intent(v.getContext(), MainAdmin.class);

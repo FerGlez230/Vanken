@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout_tecnico"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainTecnicoActivity"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
+
+   <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_tecnico_Menu"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/header_tecnico"
+        app:menu="@menu/tecnico_menu">
+
+    </com.google.android.material.navigation.NavigationView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarTecnico"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@mipmap/ico_menu" />
+
+        <FrameLayout
+            android:id="@+id/frame_Main_Tecnico"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </FrameLayout>
+
+
+    </LinearLayout>
+
+
+
+
+
+
+</androidx.drawerlayout.widget.DrawerLayout>
