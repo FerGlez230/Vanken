@@ -47,4 +47,8 @@
     <string name="todo">TODO</string>
     <string name="olvidaste_tu_contrase_a">¿Olvidaste tu contraseña?</string>
     <string name="a_n_sin_cuenta_reg_strate">¿Aún sin cuenta? Regístrate</string>
+    <string name="de_petici_n"># de Servicio:</string>
+    <string name="fecha">Fecha:</string>
+    <string name="domicilio">Domicilio:</string>
+    <string name="categor_a">Categoría:</string>
 </resources>
