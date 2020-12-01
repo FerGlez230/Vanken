@@ -4,14 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="200dp"
     android:background="@color/colorPrimaryLight"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    android:gravity="bottom"
+    android:padding="16dp">
 
     <ImageView
         android:id="@+id/imgUserTecnicoMenu"
-        android:layout_width="125dp"
-        android:layout_height="118dp"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="30dp"
         android:contentDescription="@string/imagenusuario"
         app:srcCompat="@mipmap/user_tecnico" />
 
