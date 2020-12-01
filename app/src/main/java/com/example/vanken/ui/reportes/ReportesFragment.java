@@ -98,9 +98,9 @@ public class ReportesFragment extends Fragment {
                         (Request.Method.POST, url, jo, new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject jsonObject) {
-                                Toast.makeText(getContext(), "Hola", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getContext(), "Hola", Toast.LENGTH_SHORT).show();
                                 try {
-                                    Toast.makeText(getContext(), jsonObject.toString(), Toast.LENGTH_SHORT).show();
+                                   // Toast.makeText(getContext(), jsonObject.toString(), Toast.LENGTH_SHORT).show();
 
                                     if(jsonObject.getBoolean("respuesta")){
                                         setListaRecycler(jsonObject);
