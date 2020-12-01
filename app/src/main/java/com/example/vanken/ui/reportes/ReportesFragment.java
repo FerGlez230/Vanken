@@ -126,7 +126,7 @@ public class ReportesFragment extends Fragment {
         reportes=new ArrayList<Reporte>();
         try {
             jsonArray = jsonObject.getJSONArray("lista");
-            Toast.makeText(getContext(), jsonArray.toString(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getContext(), jsonArray.toString(), Toast.LENGTH_SHORT).show();
             for (int i = 0; i < jsonArray.length(); i++) {
 
                 //Toast.makeText(getContext(), Double.toString( cal), Toast.LENGTH_SHORT).show();
