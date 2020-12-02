@@ -58,7 +58,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/textView18"
+                android:id="@+id/txtDomicilioQueja"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/domicilio"
@@ -74,7 +74,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/textView19"
+                android:id="@+id/txtComentarioQueja"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Comentario"
@@ -94,7 +94,7 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnAceptarQueja"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

@@ -148,7 +148,7 @@ public class HistoricoTecnicoFragment extends Fragment {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 String errorCause=error.toString();
-                                Toast.makeText(getContext(), errorCause, Toast.LENGTH_LONG).show();
+//                                Toast.makeText(getContext(), errorCause, Toast.LENGTH_LONG).show();
                             }
                         })
         );

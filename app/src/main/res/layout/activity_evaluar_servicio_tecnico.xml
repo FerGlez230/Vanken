@@ -27,14 +27,21 @@
                 android:textColor="@android:color/black"
                 android:textSize="24sp" />
 
-            <RatingBar
-                android:id="@+id/ratingEvaluacionServicioTecnico"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:numStars="5"
-                android:rating="0"
-                android:stepSize="1" />
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatRatingBar
+                    android:id="@+id/ratingEvaluacionServicioTecnico"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="68dp"
+                    android:layout_marginEnd="68dp"
+                    android:numStars="5"
+                    android:stepSize="1" />
+            </RelativeLayout>
 
             <EditText
                 android:id="@+id/edtComentarioEvalucaionTecnico"
@@ -113,36 +120,6 @@
                     android:inputType="number"
                     android:textColor="@android:color/black"
                     />
-            </LinearLayout>
-
-            <Switch
-                android:id="@+id/switchMaterialesExtras"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/indica_si_se_usaron_materiales_extras" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
-
-                <TextView
-                    android:id="@+id/textView13"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="5"
-                    android:textColor="@android:color/black"
-                    android:text="@string/precio_0" />
-
-                <TextView
-                    android:id="@+id/txtPrecioEvaluacionTecnico"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:textColor="@android:color/black"
-                    android:text="@string/textview" />
             </LinearLayout>
 
             <LinearLayout

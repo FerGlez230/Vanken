@@ -12,6 +12,21 @@ import android.widget.RatingBar;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.vanken.Modelos.VolleySingleton;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 public class EvaluarServicioTecnicoActivity extends AppCompatActivity {
 
     private RatingBar calif;
@@ -20,7 +35,8 @@ public class EvaluarServicioTecnicoActivity extends AppCompatActivity {
     private Switch swExtras;
     private Button btnFinalizar, btnQueja;
     private Intent inicialIntent;
-    private String ID, tiempo, ssid;
+    private String ID, tiempo, ssid, Hora;
+    private int Precio = 150;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,14 +59,19 @@ public class EvaluarServicioTecnicoActivity extends AppCompatActivity {
         comision = findViewById(R.id.edtComisionEvaluacionTecnico);
         btnFinalizar = findViewById(R.id.btnFinalizarEvaluacionTecnico);
         btnQueja = findViewById(R.id.btnGenerarQuejaEvaluacionTecnico);
+        inicialIntent = getIntent();
+        ID = inicialIntent.getStringExtra("ID");
+        Hora = inicialIntent.getStringExtra("Hora");
+        tiempo = inicialIntent.getStringExtra("Tiempo");
 
         btnFinalizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(validar()){
-                    guardarDatos();
-                    Intent i = new Intent(EvaluarServicioTecnicoActivity.this, MainTecnicoActivity.class);
-                    startActivity(i);
+                   if(guardarDatos()) {
+                       Intent i = new Intent(EvaluarServicioTecnicoActivity.this, MainTecnicoActivity.class);
+                       startActivity(i);
+                   }
                 }
             }
         });
@@ -59,10 +80,29 @@ public class EvaluarServicioTecnicoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(validar()){
+                    if(guardarDatos()){
+                        Intent i = getIntent();
+                        Intent ev = new Intent(EvaluarServicioTecnicoActivity.this, QuejaDeTecnicoActivity.class);
+                        String cliente = i.getStringExtra("Cliente");
+                        String categoria = i.getStringExtra("Categoria");
+                        String num = i.getStringExtra("ID");
+                        String Fecha = i.getStringExtra("Fecha");
+                        String Domicilio = i.getStringExtra("Domicilio");
+                        String comentario = i.getStringExtra("Comentario");
+                        String tiempo = i.getStringExtra("Tiempo");
+                        String hora = i.getStringExtra("Hora");
 
-                    guardarDatos();
-                    Intent i = new Intent(EvaluarServicioTecnicoActivity.this, QuejaDeTecnicoActivity.class);
-                    startActivity(i);
+                        ev.putExtra("Tiempo",tiempo);
+                        ev.putExtra("Hora",hora);
+                        ev.putExtra("Cliente", cliente);
+                        ev.putExtra("Categoria", categoria);
+                        ev.putExtra("ID", num);
+                        ev.putExtra("Fecha", Fecha);
+                        ev.putExtra("Domicilio", Domicilio);
+                        ev.putExtra("Comentario", comentario);
+
+                        startActivity(ev);
+                    }
                 }
             }
         });
@@ -71,18 +111,25 @@ public class EvaluarServicioTecnicoActivity extends AppCompatActivity {
     private String valuesCheckBox(){
         String hobbies = "";
 
-        if(internet.isChecked())
+        if(internet.isChecked()) {
             hobbies += "Internet,";
-        if (pc.isChecked())
+            Precio = Precio + 50;
+        }if (pc.isChecked()) {
             hobbies += "Computadora,";
-        if(programas.isChecked())
+            Precio = Precio + 200;
+        }if(programas.isChecked()) {
             hobbies += "Programas,";
-        if(celular.isChecked())
+            Precio = Precio + 120;
+        }if(celular.isChecked()) {
             hobbies += "Celular,";
-        if(impresora.isChecked())
+            Precio = Precio + 100;
+        }if(impresora.isChecked()) {
             hobbies += "musica,";
-        if(ofimatica.isChecked())
+            Precio = Precio + 100;
+        }if(ofimatica.isChecked()) {
             hobbies += "Ofimatica,";
+            Precio = Precio + 400;
+        }
 
         return hobbies;
     }
@@ -95,8 +142,44 @@ public class EvaluarServicioTecnicoActivity extends AppCompatActivity {
         return true;
     }
 
-    private void guardarDatos(){
-       /* ID = inicialIntent.getStringExtra("ID");
-        tiempo = inicialIntent.getStringExtra("Tiempo");*/
+    private boolean guardarDatos() {
+
+        float cal = calif.getRating();
+        Precio = (int) (Precio +  Integer.parseInt(comision.getText().toString()));
+        final boolean[] flag = {false};
+        //Llamar a webService
+        Map map = new HashMap();
+        map.put("funcion", "finalizarServicio");
+        map.put("idPeticion", ID);
+        map.put("evaluacionT", cal);
+        map.put("comentarioT", observaciones.getText().toString());
+        map.put("precio", Precio);
+        JSONObject params = new JSONObject(map);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, "https://www.solfeggio528.com/vanken/webservice.php",
+                params, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    //Toast.makeText(LoginActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                    if (response.getBoolean("respuesta"))
+                        flag[0] = true;
+                    else
+                        flag[0] = false;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    flag[0] = false;
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(EvaluarServicioTecnicoActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                flag[0] = false;
+            }
+        }){};
+        VolleySingleton volley = new VolleySingleton(EvaluarServicioTecnicoActivity.this);
+        volley.addToRequestQueue(jsonObjectRequest);
+
+        return flag[0];
     }
 }

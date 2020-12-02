@@ -84,6 +84,6 @@
     <string name="agregarPeticion">Agregar Petición</string>
     <string name="fecha">Fecha</string>
     <string name="de_petici_n"># de Petición: </string>
-    <string name="domicilio">Doicilio: </string>
+    <string name="domicilio">Domicilio: </string>
     <string name="categor_a">Categoría: </string>
 </resources>

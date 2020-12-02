@@ -3,10 +3,6 @@ package com.example.vanken.ui.tecnicos;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
-
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,14 +11,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.vanken.AgregarTecnicoFragment;
 import com.example.vanken.Modelos.VolleySingleton;
 import com.example.vanken.R;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -1,13 +1,18 @@
 package com.example.vanken;
 
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Request;
@@ -32,6 +37,7 @@ public class InfoPersonalTecnicoFragment extends Fragment {
     EditText edtPassworA, edtPasswordN, edtPasswordC;
     TextView txtUsuario, txtNombre, txtTelefono, txtRango;
     Button btnModificar;
+    ImageView imageView;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -85,7 +91,7 @@ public class InfoPersonalTecnicoFragment extends Fragment {
         txtNombre = vista.findViewById(R.id.txtNombreTecnicoTec);
         txtTelefono = vista.findViewById(R.id.txtTelefonoTecnicoTec);
         txtRango = vista.findViewById(R.id.txtRangoTecnicoTec);
-
+        imageView = vista.findViewById(R.id.imgVPersonalTecnico);
         initComponents();
 
         btnModificar = vista.findViewById(R.id.btnModificarPasswordTecnico);
@@ -148,6 +154,13 @@ public class InfoPersonalTecnicoFragment extends Fragment {
                         txtTelefono.setText(object.getString("telefono"));
                         txtRango.setText(object.getString("rango") + "km");
                         txtUsuario.setText(object.getString("username"));
+                        String base64String=object.getString("imagen");
+                        String base64Image = base64String;
+
+                        byte[] decodedString = Base64.decode(base64Image, Base64.DEFAULT);
+                        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+                        imageView.setImageBitmap(decodedByte);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
