@@ -47,7 +47,8 @@ public class LoginActivity extends AppCompatActivity {
                     map.put("user", email.getText().toString());
                     map.put("pass", password.getText().toString());
                     JSONObject params = new JSONObject(map);
-                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, "https://www.solfeggio528.com/vanken/webservice.php", params, new Response.Listener<JSONObject>() {
+                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, "https://www.solfeggio528.com/vanken/webservice.php",
+                            params, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
                             try {
@@ -59,6 +60,7 @@ public class LoginActivity extends AppCompatActivity {
                                     SharedPreferences sharedPreferences = getSharedPreferences("user.dat", MODE_PRIVATE);
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
                                     editor.putString("usuario", email.getText().toString());
+                                    editor.putInt("idUsuario", response.getInt("id"));
                                     editor.putString("tipo", tipo);
                                     editor.putString("ssid", ssid);
                                     editor.putBoolean("registrado", true);
@@ -74,7 +76,8 @@ public class LoginActivity extends AppCompatActivity {
                                         finish();
                                     }
                                     else if(tipo.contentEquals("Cliente")){
-
+                                        Intent intent = new Intent(v.getContext(), MainCliente.class);
+                                        startActivity(intent);
                                     }
                                     email.setText(tipo);
                                 }

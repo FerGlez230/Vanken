@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation_cliente"
+    app:startDestination="@+id/nav_peticiones_cliente">
+
+    <fragment
+        android:id="@+id/nav_peticiones_cliente"
+        android:name="com.example.vanken.ui.clientes.PeticionesFragment"
+        android:label="@string/menu_peticiones"
+        tools:layout="@layout/fragment_peticiones" />
+
+    <action android:id="@+id/action_a_agregar_peticion"
+        app:destination="@id/agregarPeticion"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+    <fragment
+        android:id="@+id/agregarPeticion"
+        android:name="com.example.vanken.ui.clientes.AgregarPeticionFragment"
+        android:label="@string/agregarPeticion"
+        tools:layout="@layout/fragment_agregar_peticion" />
+</navigation>
