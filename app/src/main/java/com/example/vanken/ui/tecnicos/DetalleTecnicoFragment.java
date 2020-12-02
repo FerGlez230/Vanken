@@ -87,7 +87,7 @@ VolleySingleton volleySingleton;
         imageView=(ImageView)view.findViewById(R.id.imgVDetalleTecnico);
         username=(TextView)view.findViewById(R.id.textViewUserDetalleTecnico);
         if(id!=0){
-            Toast.makeText(getContext(), Integer.toString(id),Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getContext(), Integer.toString(id),Toast.LENGTH_SHORT).show();
             Map map=new HashMap<>();
             map.put("funcion", "detallesTecnico");
             map.put("id",Integer.toString( id));

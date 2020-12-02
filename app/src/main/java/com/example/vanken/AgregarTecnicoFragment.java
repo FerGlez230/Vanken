@@ -154,8 +154,9 @@ public class AgregarTecnicoFragment extends Fragment {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cargarImagen();
                 bandera=true;
+                cargarImagen();
+
             }
         });
         return view;
@@ -194,7 +195,6 @@ public class AgregarTecnicoFragment extends Fragment {
         else
             map.put("imagen", "");
         if(!editar){
-            map.put("tipo", "Tecnico");
             map.put("pass", password.getText().toString());
         }else {
             map.put("pass", "");
@@ -213,9 +213,10 @@ public class AgregarTecnicoFragment extends Fragment {
                                     //Toast.makeText(getContext(), jsonObject.toString(), Toast.LENGTH_SHORT).show();
                                     switch (t){
                                         case 0:
+                                            NavHostFragment.findNavController(AgregarTecnicoFragment.this).navigate(R.id.nav_tecnicos);
                                             if (jsonObject.getBoolean("respuesta")) {
                                                 Toast.makeText(getContext(), "Técnico agregado correctamente", Toast.LENGTH_SHORT).show();
-                                                NavHostFragment.findNavController(AgregarTecnicoFragment.this).navigate(R.id.nav_tecnicos);
+
                                             }else
                                                 Toast.makeText(getContext(), "Hubo un error al agregar al técnico", Toast.LENGTH_SHORT).show();
                                             break;

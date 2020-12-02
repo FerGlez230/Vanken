@@ -9,6 +9,7 @@
     <string name="nombre">Nombre</string>
     <string name="serviciosSemanales">Servicios técnicos semanales</string>
     <string name="ganancias">Ganancias semanales</string>
+
     <string name="apellidos">Apellidos</string>
     <string name="title_activity_main_admin">MainAdmin</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -45,7 +46,7 @@
     <string name="menu_slideshow">Slideshow</string>
     <string name="historico">Historico</string>
     <string name="servicios_disponibles">Servicios Disponibles</string>
-    <string name="log_out">Log out</string>
+    <string name="log_out">Cerrar sesión</string>
     <string name="configuraci_n">Configuración</string>
     <string name="imagenusuario">ImagenUsuario</string>
     <string name="nav_close_tec">Cerrar Nav</string>
