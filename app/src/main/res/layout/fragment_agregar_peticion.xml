@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTint="@color/colorPrimaryLight"
+    tools:context=".ui.clientes.AgregarPeticionFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="30dp">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/direccion"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/edDireccionAgregarPeticion"
+                android:layout_width="298dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/ingresaDireccion"
+                android:inputType="textPersonName" />
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/colorAccent"
+                android:src="@android:drawable/ic_menu_search" />
+        </LinearLayout>
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mapViewAgregarPeticion"
+            android:layout_width="match_parent"
+            android:layout_height="178dp" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/problema"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edProblemaAgregarPeticion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="@string/descripcionProblema"
+            android:inputType="textMultiLine" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/categorias"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/descripcionCategorias" />
+
+        <CheckBox
+            android:id="@+id/cbCatInternetP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/internet" />
+
+        <CheckBox
+            android:id="@+id/cbCatCompuP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/computadora" />
+
+        <CheckBox
+            android:id="@+id/cbCatProgramasP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/programas" />
+
+        <CheckBox
+            android:id="@+id/cbCatImpresoraP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/impresoraa" />
+
+        <CheckBox
+            android:id="@+id/cbCatOfimaticaP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ofimatica" />
+
+        <CheckBox
+            android:id="@+id/cbCatCelularP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/celular" />
+
+        <Button
+            android:id="@+id/btnAceptarAgregarPeticion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorAccent"
+            android:text="@string/aceptar"
+            android:textColor="#F5FFFFFF" />
+
+    </LinearLayout>
+</FrameLayout>
