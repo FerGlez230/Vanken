@@ -193,6 +193,7 @@ public class AgregarPeticionFragment extends Fragment implements OnMapReadyCallb
         VolleySingleton volleySingleton = new VolleySingleton(getContext());
         int id = sharedPreferences.getInt("idUsuario",-1);
         Map map = new HashMap<>();
+        map.put("function", "crearPeticion");
         map.put("id", id);
         map.put("direccion", direccion.getText().toString());
         map.put("problema", direccion.getText().toString());
@@ -227,13 +228,6 @@ public class AgregarPeticionFragment extends Fragment implements OnMapReadyCallb
     public void onMapReady(GoogleMap googleMap) {
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
         }
         this.map = googleMap;

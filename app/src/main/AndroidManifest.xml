@@ -41,11 +41,16 @@
             android:name=".MainAdmin"
             android:label="@string/title_activity_main_admin"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MainCliente"
+            android:label="@string/title_activity_main_cliente"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".RegistroActivity" />
         <activity
             android:name=".LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainActivity" />
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyB7JYZoOvvUP9whDGZqUYpjNDFWqfMRQ9Y"></meta-data>
     </application>
 
 </manifest>
