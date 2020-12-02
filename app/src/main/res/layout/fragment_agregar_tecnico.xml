@@ -70,7 +70,7 @@
                 android:id="@+id/editTextPasswordAgregarTecnico"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberPassword"
+                android:inputType="textPassword"
                 android:layout_marginBottom="@dimen/margin_small"
                 android:hint="@string/password"
                 ></EditText>
@@ -78,7 +78,7 @@
                 android:id="@+id/editTextConfirmarPasswordAgregarTecnico"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberPassword"
+                android:inputType="textPassword"
                 android:layout_marginBottom="@dimen/margin_small"
                 android:hint="@string/confirmarPassword"
                 ></EditText>

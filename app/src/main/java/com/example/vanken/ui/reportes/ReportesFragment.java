@@ -69,9 +69,10 @@ public class ReportesFragment extends Fragment {
                     map.put("funcion", "listaQuejasTecnico");
                     //map.put("tipo", "Tecnico");
                     llamarWebService(map);
-                    Toast.makeText(getContext(), "Activo", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), "Activo", Toast.LENGTH_SHORT).show();
                 }else{
-                    Toast.makeText(getContext(), "inactivo", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), "inactivo", Toast.LENGTH_SHORT).show();
+
                     //recyclerViewReportes.invalidate();
                     map.clear();
                     map.put("funcion", "listaQuejasCliente");
