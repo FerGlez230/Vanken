@@ -66,7 +66,7 @@ public class AgregarPeticionFragment extends Fragment implements OnMapReadyCallb
     private Button agregar;
     double costo, latitud, longitud;
     private MapView mapView;
-    private static final String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
+    private static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyB3kM59ae5WKJzXqPa1cgAxs6ZWQMg0UIM";
     private FusedLocationProviderClient mFused;
     private GoogleMap map;
     private Location lastKnownLocation;

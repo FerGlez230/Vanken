@@ -3,7 +3,6 @@ package com.example.vanken;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -18,10 +17,12 @@ import android.widget.TextView;
 public class DescripcionPeticionTecnicoActivity extends AppCompatActivity {
 
     TextView ID, fecha, cliente, domicilio, categoria, comentario;
-    String longitud, latitud;
+    String s_longitud, s_latitud;
     Button acept;
     Intent i;
     PendingIntent pendingIntent;
+    double costo, latitud, longitud;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,14 +39,15 @@ public class DescripcionPeticionTecnicoActivity extends AppCompatActivity {
         acept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                aceptarPeticion();
                 createNotificationChannel();
                 createNotification();
                 setPendingIntent();
             }
         });
 
-        longitud = i.getStringExtra("Longitud");
-        latitud = i.getStringExtra("Latitud");
+        s_longitud = i.getStringExtra("Longitud");
+        s_latitud = i.getStringExtra("Latitud");
         ID.setText("# " + i.getStringExtra("ID"));
         fecha.setText(String.valueOf(i.getStringExtra("Fecha")));
         cliente.setText("Cliente: " + i.getStringExtra("Cliente"));
@@ -59,7 +61,7 @@ public class DescripcionPeticionTecnicoActivity extends AppCompatActivity {
         notification.setSmallIcon(R.drawable.support);
         notification.setContentTitle("Titulo");
         notification.setContentText("Contenido");
-        notification.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        notification.setPriority(NotificationCompat.PRIORITY_MAX);
         notification.setDefaults(Notification.DEFAULT_VIBRATE);
         notification.setDefaults(Notification.DEFAULT_SOUND);
         notification.setContentIntent(pendingIntent);
@@ -70,7 +72,7 @@ public class DescripcionPeticionTecnicoActivity extends AppCompatActivity {
 
     private void createNotificationChannel(){
         CharSequence nombre = "Notificacion";
-        NotificationChannel notificationChannel = new NotificationChannel("NOTIFICACION",nombre,NotificationManager.IMPORTANCE_DEFAULT);
+        NotificationChannel notificationChannel = new NotificationChannel("NOTIFICACION",nombre, NotificationManager.IMPORTANCE_HIGH);
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         manager.createNotificationChannel(notificationChannel);
     }
@@ -88,6 +90,10 @@ public class DescripcionPeticionTecnicoActivity extends AppCompatActivity {
         stackBuilder.addParentStack(DescripcionPeticionTecnicoActivity.class);
         stackBuilder.addNextIntent(intent);
         pendingIntent = stackBuilder.getPendingIntent(1,PendingIntent.FLAG_UPDATE_CURRENT);
+
+    }
+
+    private void aceptarPeticion(){
 
     }
 }

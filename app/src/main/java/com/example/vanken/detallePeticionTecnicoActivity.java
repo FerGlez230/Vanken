@@ -12,6 +12,10 @@ import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class detallePeticionTecnicoActivity extends AppCompatActivity {
 
     TextView txtCliente;
@@ -42,9 +46,14 @@ public class detallePeticionTecnicoActivity extends AppCompatActivity {
         btnFinalizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Calendar cal = Calendar.getInstance();
+                Date date = cal.getTime();
+                SimpleDateFormat spF = new SimpleDateFormat("HH:mm:ss");
+                String currentDateTimeString = spF.format(date);
                 Intent intent = new Intent(detallePeticionTecnicoActivity.this, EvaluarServicioTecnicoActivity.class);
                 intent.putExtra("Tiempo",txtcronometro.getText());
                 intent.putExtra("ID",i.getStringExtra("ID"));
+                intent.putExtra("Hora",currentDateTimeString);
                 startActivity(intent);
                 finish();
             }

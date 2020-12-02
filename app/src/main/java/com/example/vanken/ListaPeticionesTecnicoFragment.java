@@ -1,6 +1,7 @@
 package com.example.vanken;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,10 +13,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.vanken.Adaptadores.AdaptadorItemListaPeticionTecnico;
 import com.example.vanken.Modelos.ItemPeticionTecnico_Modelo;
+import com.example.vanken.Modelos.VolleySingleton;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,23 +79,92 @@ public class ListaPeticionesTecnicoFragment extends Fragment {
         recyclerView = v.findViewById(R.id.recyclerVListPeticionesTecnicos);
         recyclerView.setHasFixedSize(true);
         modelo = new ArrayList<>();
-
-        cargarLista();
-        Mostrar();
+        SharedPreferences sharedPreferences = v.getContext().getSharedPreferences("user.dat",MODE_PRIVATE);
+        cargarLista(sharedPreferences.getString("ssid"," "));
 
         return v;
     }
 
-    public void cargarLista(){
-        modelo.add(new ItemPeticionTecnico_Modelo("Ana","Loma Tuzantla #8877 Loma Dorada","2020/11/30",1,"Reparación Impresora",-1445566432, 39092111,"No imprime a color, se apaga sola"));
-        modelo.add(new ItemPeticionTecnico_Modelo("Ana","Loma Tuzantla #8877 Loma Dorada","2020/11/30",2,"Reparación Impresora",-1445566432, 39092111,"No imprime a color, se apaga sola"));
-        modelo.add(new ItemPeticionTecnico_Modelo("Ana","Loma Tuzantla #8877 Loma Dorada","2020/11/30",3,"Reparación Impresora",-1445566432, 39092111,"No imprime a color, se apaga sola"));
-        modelo.add(new ItemPeticionTecnico_Modelo("Ana","Loma Tuzantla #8877 Loma Dorada","2020/11/30",4,"Reparación Impresora",-1445566432, 39092111,"No imprime a color, se apaga sola"));
-        modelo.add(new ItemPeticionTecnico_Modelo("Ana","Loma Tuzantla #8877 Loma Dorada","2020/11/30",5,"Reparación Impresora",-1445566432, 39092111,"No imprime a color, se apaga sola"));
-        modelo.add(new ItemPeticionTecnico_Modelo("Ana","Loma Tuzantla #8877 Loma Dorada","2020/11/30",6,"Reparación Impresora",-1445566432, 39092111,"No imprime a color, se apaga sola"));
-        modelo.add(new ItemPeticionTecnico_Modelo("Ana","Loma Tuzantla #8877 Loma Dorada","2020/11/30",7,"Reparación Impresora",-1445566432, 39092111,"No imprime a color, se apaga sola"));
-        modelo.add(new ItemPeticionTecnico_Modelo("Ana","Loma Tuzantla #8877 Loma Dorada","2020/11/30",8,"Reparación Impresora",-1445566432, 39092111,"No imprime a color, se apaga sola"));
-        modelo.add(new ItemPeticionTecnico_Modelo("Ana","Loma Tuzantla #8877 Loma Dorada","2020/11/30",9,"Reparación Impresora",-1445566432, 39092111,"No imprime a color, se apaga sola"));
+    public void cargarLista(String ssid){
+        final ArrayList<ItemPeticionTecnico_Modelo> auxList = new ArrayList<>();
+        VolleySingleton volleySingleton = null;
+        Map map;
+        String url="https://www.solfeggio528.com/vanken/webservice.php";
+        // Request a string response from the provided URL.
+        map=new HashMap();
+        map.put("funcion", "peticionesTecnico");
+        JSONObject params=new JSONObject(map);
+        volleySingleton.getInstance(getContext()).addToRequestQueue(
+                new JsonObjectRequest
+                        (Request.Method.POST, url, params, new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject jsonObject) {
+                                try {
+                                    if(jsonObject.getBoolean("respuesta")){
+                                        JSONArray jsonArray;
+                                        try {
+                                            Toast.makeText(getContext(),jsonObject.toString(),Toast.LENGTH_LONG).show();
+                                            jsonArray = jsonObject.getJSONArray("lista");
+                                            Toast.makeText(getContext(),jsonArray.toString(),Toast.LENGTH_LONG).show();
+                                            for (int i = 0; i < jsonArray.length(); i++) {
+                                                JSONObject objectAux = jsonArray.getJSONObject(i);
+
+                                                modelo.add(new ItemPeticionTecnico_Modelo(objectAux.getString("nombreCliente"),objectAux.getString("domicilio"),
+                                                        objectAux.getString("fecha"),objectAux.getInt("id"),objectAux.getString("tipoServicio"),
+                                                        objectAux.getLong("latitud"),objectAux.getLong("longitud"),objectAux.getString("problema")));
+
+                                                //ItemPeticionTecnico_Modelo item = new ItemPeticionTecnico_Modelo("Ana", "Loma Tuzantla #8877 Loma Dorada", "2020/11/30", 1, "Reparación Impresora", -1445566432, 39092111, "No imprime a color, se apaga sola");
+                                                //modelo.add(i + 1, item);
+
+                                                /*modelo.add(new ItemPeticionTecnico_Modelo(objectAux.getString("nombreCliente"), objectAux.getString("domicilio"),
+                                                        objectAux.getString("fecha"),objectAux.getInt("id"),
+                                                        objectAux.getString("tipoServicio"),-1445566432, 39092111,objectAux.getString("comentariot")));*/
+                                            }
+                                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                            adapter = new AdaptadorItemListaPeticionTecnico(getContext(),modelo);
+                                            recyclerView.setAdapter(adapter);
+                                            adapter.setOnclickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    Intent i = new Intent(getContext(),DescripcionPeticionTecnicoActivity.class);
+                                                    i.putExtra("ID",String.valueOf(modelo.get(recyclerView.getChildAdapterPosition(v)).getNumServicio()));
+                                                    i.putExtra("Fecha",modelo.get(recyclerView.getChildAdapterPosition(v)).getFecha());
+                                                    i.putExtra("Cliente",modelo.get(recyclerView.getChildAdapterPosition(v)).getCliente());
+                                                    i.putExtra("Domicilio",modelo.get(recyclerView.getChildAdapterPosition(v)).getDomicilio());
+                                                    i.putExtra("Categoria",modelo.get(recyclerView.getChildAdapterPosition(v)).getCategoria());
+                                                    i.putExtra("Comentario",modelo.get(recyclerView.getChildAdapterPosition(v)).getComentario());
+                                                    i.putExtra("Longitud",String.valueOf(modelo.get(recyclerView.getChildAdapterPosition(v)).getLongitud()));
+                                                    i.putExtra("Latitud",String.valueOf(modelo.get(recyclerView.getChildAdapterPosition(v)).getLatitud()));
+                                                    startActivity(i);
+                                                }
+                                            });
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }else{
+                                        Toast.makeText(getContext(),"No hay respuesta",Toast.LENGTH_LONG).show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                String errorCause=error.toString();
+                                //Toast.makeText(getContext(), errorCause, Toast.LENGTH_LONG).show();
+                            }
+                        })
+        );
+        try{
+            for (int i = 0; i < modelo.size(); i++){
+                Toast.makeText(getContext(), i, Toast.LENGTH_SHORT).show();
+            }
+        }catch (Exception e){
+            Toast.makeText(getContext(), e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     public void Mostrar(){

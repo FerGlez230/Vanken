@@ -1,12 +1,26 @@
 package com.example.vanken;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.vanken.Modelos.VolleySingleton;
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.util.HashMap;
+import java.util.Map;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +28,10 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class InfoPersonalTecnicoFragment extends Fragment {
+
+    EditText edtPassworA, edtPasswordN, edtPasswordC;
+    TextView txtUsuario, txtNombre, txtTelefono, txtRango;
+    Button btnModificar;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -58,7 +76,112 @@ public class InfoPersonalTecnicoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_info_personal_tecnico, container, false);
+        final View vista = inflater.inflate(R.layout.fragment_info_personal_tecnico, container, false);
+
+        edtPassworA = vista.findViewById(R.id.edtPasswordAnteriorTecnico);
+        edtPasswordN = vista.findViewById(R.id.edtPasswordNueva);
+        edtPasswordC = vista.findViewById(R.id.edtPasswordConfirmTecnico);
+        txtUsuario = vista.findViewById(R.id.txtUsusarioInfoTecnico);
+        txtNombre = vista.findViewById(R.id.txtNombreTecnicoTec);
+        txtTelefono = vista.findViewById(R.id.txtTelefonoTecnicoTec);
+        txtRango = vista.findViewById(R.id.txtRangoTecnicoTec);
+
+        initComponents();
+
+        btnModificar = vista.findViewById(R.id.btnModificarPasswordTecnico);
+        btnModificar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(validar()){
+                    Map map = new HashMap();
+                    map.put("funcion", "updatePassword");
+                    map.put("username", txtUsuario.getText().toString());
+                    map.put("passwordNueva", edtPasswordN.getText().toString());
+                    map.put("passwordVieja", edtPassworA.getText().toString());
+
+                    JSONObject params = new JSONObject(map);
+                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, "https://www.solfeggio528.com/vanken/webservice.php",
+                            params, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                if (response.getBoolean("respuesta")) {
+                                    Toast.makeText(vista.getContext(),"Operacion Exitosa",Toast.LENGTH_SHORT).show();
+                                }else
+                                    Toast.makeText(vista.getContext(),"Error no hay respuesta",Toast.LENGTH_SHORT).show();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                        }
+                    }){};
+                    VolleySingleton volley = new VolleySingleton(vista.getContext());
+                    volley.addToRequestQueue(jsonObjectRequest);
+                }else{
+                    Toast.makeText(vista.getContext(),"Ingresa correctamente el password", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        return vista;
+    }
+    String url = "https://www.solfeggio528.com/vanken/webservice.php";
+    private void initComponents(){
+
+        Map map = new HashMap();
+        map.put("funcion", "perfilTecnico");
+        map.put("ssid", ssid());
+
+        JSONObject params = new JSONObject(map);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url,
+                params, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    if(response.getBoolean("respuesta")){
+                        JSONObject object = response.getJSONObject("datos");
+                        txtNombre.setText(object.getString("nombre"));
+                        txtTelefono.setText(object.getString("telefono"));
+                        txtRango.setText(object.getString("rango") + "km");
+                        txtUsuario.setText(object.getString("username"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    txtNombre.setText("Nombre");
+                    txtTelefono.setText("Telefono");
+                    txtRango.setText("Rango");
+                    txtUsuario.setText("Username");
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){};
+        VolleySingleton volley = new VolleySingleton(getContext());
+        volley.addToRequestQueue(jsonObjectRequest);
+    }
+
+    private String ssid(){
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("user.dat",MODE_PRIVATE);
+        return sharedPreferences.getString("ssid"," ");
+    }
+
+    private boolean validar(){
+        String nueva = edtPasswordN.getText().toString();
+        String confirm = edtPasswordC.getText().toString();
+        String anterior = edtPassworA.getText().toString();
+
+        if(nueva.isEmpty() || confirm.isEmpty() || anterior.isEmpty())
+            return false;
+        else if(nueva.equals(confirm) && !nueva.equals(anterior))
+            return true;
+
+        return false;
     }
 }

@@ -3,20 +3,24 @@
 
     <group>
         <item
+            android:id="@+id/itemServicios"
             android:icon="@drawable/ic_reportes_white_24dp"
             android:iconTint="@color/colorPrimaryDark"
             android:title="@string/servicios_disponibles" />
         <item
+            android:id="@+id/itemHistorico"
             android:icon="@drawable/history"
             android:iconTint="@color/colorPrimaryLight"
             android:title="@string/historico" />
     </group>
     <group >
         <item
+            android:id="@+id/itemPerfil"
             android:icon="@drawable/settings"
             android:iconTint="@color/colorPrimaryLight"
             android:title="@string/configuraci_n" />
         <item
+            android:id="@+id/itemSalir"
             android:icon="@drawable/log_out"
             android:iconTint="@color/colorPrimaryLight"
             android:title="@string/log_out" />
