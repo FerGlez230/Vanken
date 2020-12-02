@@ -1,5 +1,6 @@
 package com.example.vanken;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.vanken.Adaptadores.AdaptadorItemListaPeticionTecnico;
 import com.example.vanken.Modelos.ItemPeticionTecnico_Modelo;
@@ -61,6 +63,7 @@ public class ListaPeticionesTecnicoFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_lista_peticiones_tecnico, container, false);
         recyclerView = v.findViewById(R.id.recyclerVListPeticionesTecnicos);
+        recyclerView.setHasFixedSize(true);
         modelo = new ArrayList<>();
 
         cargarLista();
@@ -70,21 +73,35 @@ public class ListaPeticionesTecnicoFragment extends Fragment {
     }
 
     public void cargarLista(){
-        modelo.add(new ItemPeticionTecnico_Modelo("Ana","Loma Tuzantla #8877 Loma Dorada","2020/11/30",1,"Reparación Impresora",-1445566432, 39092111));
-        modelo.add(new ItemPeticionTecnico_Modelo("Ana","Loma Tuzantla #8877 Loma Dorada","2020/11/30",2,"Reparación Impresora",-1445566432, 39092111));
-        modelo.add(new ItemPeticionTecnico_Modelo("Ana","Loma Tuzantla #8877 Loma Dorada","2020/11/30",3,"Reparación Impresora",-1445566432, 39092111));
-        modelo.add(new ItemPeticionTecnico_Modelo("Ana","Loma Tuzantla #8877 Loma Dorada","2020/11/30",4,"Reparación Impresora",-1445566432, 39092111));
-        modelo.add(new ItemPeticionTecnico_Modelo("Ana","Loma Tuzantla #8877 Loma Dorada","2020/11/30",5,"Reparación Impresora",-1445566432, 39092111));
-        modelo.add(new ItemPeticionTecnico_Modelo("Ana","Loma Tuzantla #8877 Loma Dorada","2020/11/30",6,"Reparación Impresora",-1445566432, 39092111));
-        modelo.add(new ItemPeticionTecnico_Modelo("Ana","Loma Tuzantla #8877 Loma Dorada","2020/11/30",7,"Reparación Impresora",-1445566432, 39092111));
-        modelo.add(new ItemPeticionTecnico_Modelo("Ana","Loma Tuzantla #8877 Loma Dorada","2020/11/30",8,"Reparación Impresora",-1445566432, 39092111));
-        modelo.add(new ItemPeticionTecnico_Modelo("Ana","Loma Tuzantla #8877 Loma Dorada","2020/11/30",9,"Reparación Impresora",-1445566432, 39092111));
+        modelo.add(new ItemPeticionTecnico_Modelo("Ana","Loma Tuzantla #8877 Loma Dorada","2020/11/30",1,"Reparación Impresora",-1445566432, 39092111,"No imprime a color, se apaga sola"));
+        modelo.add(new ItemPeticionTecnico_Modelo("Ana","Loma Tuzantla #8877 Loma Dorada","2020/11/30",2,"Reparación Impresora",-1445566432, 39092111,"No imprime a color, se apaga sola"));
+        modelo.add(new ItemPeticionTecnico_Modelo("Ana","Loma Tuzantla #8877 Loma Dorada","2020/11/30",3,"Reparación Impresora",-1445566432, 39092111,"No imprime a color, se apaga sola"));
+        modelo.add(new ItemPeticionTecnico_Modelo("Ana","Loma Tuzantla #8877 Loma Dorada","2020/11/30",4,"Reparación Impresora",-1445566432, 39092111,"No imprime a color, se apaga sola"));
+        modelo.add(new ItemPeticionTecnico_Modelo("Ana","Loma Tuzantla #8877 Loma Dorada","2020/11/30",5,"Reparación Impresora",-1445566432, 39092111,"No imprime a color, se apaga sola"));
+        modelo.add(new ItemPeticionTecnico_Modelo("Ana","Loma Tuzantla #8877 Loma Dorada","2020/11/30",6,"Reparación Impresora",-1445566432, 39092111,"No imprime a color, se apaga sola"));
+        modelo.add(new ItemPeticionTecnico_Modelo("Ana","Loma Tuzantla #8877 Loma Dorada","2020/11/30",7,"Reparación Impresora",-1445566432, 39092111,"No imprime a color, se apaga sola"));
+        modelo.add(new ItemPeticionTecnico_Modelo("Ana","Loma Tuzantla #8877 Loma Dorada","2020/11/30",8,"Reparación Impresora",-1445566432, 39092111,"No imprime a color, se apaga sola"));
+        modelo.add(new ItemPeticionTecnico_Modelo("Ana","Loma Tuzantla #8877 Loma Dorada","2020/11/30",9,"Reparación Impresora",-1445566432, 39092111,"No imprime a color, se apaga sola"));
     }
 
     public void Mostrar(){
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new AdaptadorItemListaPeticionTecnico(getContext(),modelo);
         recyclerView.setAdapter(adapter);
-
+        adapter.setOnclickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(),DescripcionPeticionTecnicoActivity.class);
+                i.putExtra("ID",String.valueOf(modelo.get(recyclerView.getChildAdapterPosition(v)).getNumServicio()));
+                i.putExtra("Fecha",modelo.get(recyclerView.getChildAdapterPosition(v)).getFecha());
+                i.putExtra("Cliente",modelo.get(recyclerView.getChildAdapterPosition(v)).getCliente());
+                i.putExtra("Domicilio",modelo.get(recyclerView.getChildAdapterPosition(v)).getDomicilio());
+                i.putExtra("Categoria",modelo.get(recyclerView.getChildAdapterPosition(v)).getCategoria());
+                i.putExtra("Comentario",modelo.get(recyclerView.getChildAdapterPosition(v)).getComentario());
+                i.putExtra("Longitud",String.valueOf(modelo.get(recyclerView.getChildAdapterPosition(v)).getLongitud()));
+                i.putExtra("Latitud",String.valueOf(modelo.get(recyclerView.getChildAdapterPosition(v)).getLatitud()));
+                startActivity(i);
+            }
+        });
     }
 }

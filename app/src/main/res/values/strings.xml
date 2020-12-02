@@ -51,4 +51,18 @@
     <string name="fecha">Fecha:</string>
     <string name="domicilio">Domicilio:</string>
     <string name="categor_a">Categoría:</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="finalizar">Finalizar</string>
+    <string name="servicio">Servicio:</string>
+    <string name="tiempo_activo">Tiempo Activo</string>
+    <string name="cliente_">Cliente:</string>
+    <string name="evaluaci_n_del_servicio">Evaluación del Servicio</string>
+    <string name="obsevaciones">Obsevaciones</string>
+    <string name="generar_queja">Generar Queja</string>
+    <string name="selecciona_la_categor_a_del_servicio">Selecciona la categoría del Servicio</string>
+    <string name="selecciona_la_subcategor_a_del_servicio">Selecciona la subcategoría del servicio</string>
+    <string name="ingresa_la_comisi_n_por_servicio">Ingresa la comisión por Servicio</string>
+    <string name="textview">TextView</string>
+    <string name="indica_si_se_usaron_materiales_extras">Indica si se usaron materiales Extras</string>
+    <string name="precio_0">Precio: $0</string>
 </resources>

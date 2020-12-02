@@ -15,10 +15,11 @@ import com.example.vanken.R;
 
 import java.util.ArrayList;
 
-public class AdaptadorItemListaPeticionTecnico extends RecyclerView.Adapter<AdaptadorItemListaPeticionTecnico.ViewHolder> {
+public class AdaptadorItemListaPeticionTecnico extends RecyclerView.Adapter<AdaptadorItemListaPeticionTecnico.ViewHolder> implements View.OnClickListener{
 
     ArrayList<ItemPeticionTecnico_Modelo> modelo;
     LayoutInflater inflater;
+    private View.OnClickListener listener;
 
     public AdaptadorItemListaPeticionTecnico(Context context,ArrayList<ItemPeticionTecnico_Modelo> modelo){
         this.inflater =  LayoutInflater.from(context);
@@ -29,9 +30,12 @@ public class AdaptadorItemListaPeticionTecnico extends RecyclerView.Adapter<Adap
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.item_list_peticiones_tecnico,parent,false);
-
-
+        view.setOnClickListener(this);
         return new ViewHolder(view);
+    }
+
+    public void setOnclickListener(View.OnClickListener listener){
+        this.listener = listener;
     }
 
     @Override
@@ -50,6 +54,13 @@ public class AdaptadorItemListaPeticionTecnico extends RecyclerView.Adapter<Adap
         return modelo.size();
     }
 
+    @Override
+    public void onClick(View v) {
+        if(listener != null){
+            listener.onClick(v);
+        }
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView servicio, fecha, cliente, domicilio, categoria;
         public ViewHolder(@NonNull View itemView) {
@@ -60,8 +71,6 @@ public class AdaptadorItemListaPeticionTecnico extends RecyclerView.Adapter<Adap
             cliente = itemView.findViewById(R.id.txtClientePeticionItem);
             domicilio = itemView.findViewById(R.id.txtDomicilioPeticionItem);
             categoria = itemView.findViewById(R.id.txtCategoriaPeticionItem);
-
-
         }
     }
 }
