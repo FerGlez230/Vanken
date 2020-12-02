@@ -22,6 +22,7 @@ import com.example.vanken.Modelos.Persona;
 import com.example.vanken.Modelos.Reporte;
 import com.example.vanken.Modelos.VolleySingleton;
 import com.example.vanken.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,11 +54,14 @@ public class EstadisticasFragment extends Fragment {
     VolleySingleton volleySingleton;
     private Map map;
     private String[] colores={"#D73F51B5","#80CBC4","#BBDEFB","#64B5F6","#3f51b5","#4DB6AD","#00838f","#B2DFDB","#7986CB"};
+    public final static String[] dias = new String[]{"Lun", "Mar", "Mie", "Jue", "Vie", "Sab", "Dom",};
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         estadisticasViewModel =
                 ViewModelProviders.of(this).get(EstadisticasViewModel.class);
         View root = inflater.inflate(R.layout.fragment_estadisticas, container, false);
+
+
         pieChartView= (PieChartView) root.findViewById(R.id.graficaTecnicos);
         columnChartView=(ColumnChartView) root.findViewById(R.id.graficaServicios);
         map=new HashMap();
@@ -88,11 +92,13 @@ public class EstadisticasFragment extends Fragment {
         List list=new ArrayList();
         try {
             jsonArray = jsonObject.getJSONArray("lista");
-            Toast.makeText(getContext(), jsonArray.toString(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getContext(), jsonArray.toString(), Toast.LENGTH_SHORT).show();
             for (int i = 0; i < jsonArray.length(); i++) {
-                list.add(new SliceValue(Integer.parseInt(jsonArray.getJSONObject(i).getString("cantidad")),
+                list.add(new SliceValue(Integer.parseInt(jsonArray.getJSONObject(i).getString("NumServicios")),
                         Color.parseColor(colores[i])).setLabel(jsonArray.getJSONObject(i).getString("nombre")
-                        .concat(jsonArray.getJSONObject(i).getString("apellidos"))));
+                        .concat(" ").concat(
+                                jsonArray.getJSONObject(i).getString("NumServicios")
+                        )));
             }
             PieChartData pieChartData=new PieChartData(list);
             pieChartData.setHasLabels(true).setValueLabelTextSize(14);
@@ -106,18 +112,17 @@ public class EstadisticasFragment extends Fragment {
     public void llenarGraficaGanancias(JSONObject jsonObject){
         JSONArray jsonArray;
         int numSubcolumns = 1;
-        int numColumns = 7;
         try {
             jsonArray = jsonObject.getJSONArray("lista");
             // Column can have many subcolumns, here by default I use 1 subcolumn in each of 8 columns.
             List<Column> columns = new ArrayList<Column>();
             List<SubcolumnValue> values;
-            for (int i = 0; i < numColumns; ++i) {
+            for (int i = 0; i < jsonArray.length(); ++i) {
 
                 values = new ArrayList<SubcolumnValue>();
                 for (int j = 0; j < numSubcolumns; ++j) {
                     values.add(new SubcolumnValue(Float.parseFloat( jsonArray.getJSONObject(i).getString("cantidad")),
-                            Color.parseColor(colores[i])));
+                            Color.parseColor(colores[7-i])).setLabel(jsonArray.getJSONObject(i).getString("dia")));
                 }
                 Column column = new Column(values);
                 column.setHasLabels(true);
@@ -131,7 +136,7 @@ public class EstadisticasFragment extends Fragment {
                 axisX.setName("Día de la semana");
                 axisY.setName("Ganancias");
 
-                data.setAxisXBottom(axisX);
+                //data.setAxisXBottom(axisX);
                 data.setAxisYLeft(axisY);
                 columnChartView.setContentDescription("Ganancias semanales");
             columnChartView.setColumnChartData(data);

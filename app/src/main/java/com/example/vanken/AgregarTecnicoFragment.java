@@ -10,6 +10,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,15 +27,21 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.vanken.Modelos.VolleySingleton;
 import com.example.vanken.ui.tecnicos.TecnicosFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,8 +54,11 @@ public class AgregarTecnicoFragment extends Fragment {
     VolleySingleton volleySingleton;
     ImageView imageView;
     ImageButton imageButton;
-    Boolean bandera=false;
+    Boolean bandera=false, editar=false;
     String imagenString;
+    Uri imageUri;
+    int id;
+    private static final int PICK_IMAGE = 10;
 
     public AgregarTecnicoFragment() {
         // Required empty public constructor
@@ -74,7 +84,8 @@ public class AgregarTecnicoFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-
+            id=getArguments().getInt("id", 0);
+            editar=true;
         }
     }
 
@@ -94,43 +105,102 @@ public class AgregarTecnicoFragment extends Fragment {
         rango = (EditText) view.findViewById(R.id.editTextRangoAgregarTecnico);
         imageView=(ImageView)view.findViewById(R.id.imageViewAgregarTecnico);
         imageButton=(ImageButton)view.findViewById(R.id.imgBtnAgregarTecnico);
-
+        final Map map = new HashMap<>();
+        if(editar){
+            button.setText("Guardar cambios");
+            password.setVisibility(View.GONE);
+            passwordConf.setVisibility(View.GONE);
+            map.clear();
+            map.put("funcion", "detallesTecnico");
+            map.put("id", Integer.toString(id));
+            llamarWebService(map, 2);
+        }
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!nombre.getText().toString().isEmpty() && !apellidos.getText().toString().isEmpty()
-                        && !email.getText().toString().isEmpty() && !password.getText().toString().isEmpty() &&
-                        !passwordConf.getText().toString().isEmpty()&&bandera==true) {
-                    if (password.getText().toString().equals(passwordConf.getText().toString())) {
-                        Map map = new HashMap<>();
-                        map.put("funcion", "registro");
-                        map.put("nombre", nombre.getText().toString());
-                        map.put("apellidos", apellidos.getText().toString());
-                        map.put("tipo", "Tecnico");
-                        map.put("telefono", telefono.getText().toString());
-                        map.put("user", email.getText().toString());
-                        map.put("pass", password.getText().toString());
-                        map.put("rango", rango.getText().toString());
-                        map.put("img", imagenString);
-                        llamarWebService(map);
-                    }else{
-                        Toast.makeText(getContext(), "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+                if(!editar){
+                    if (!nombre.getText().toString().isEmpty() && !apellidos.getText().toString().isEmpty()
+                            && !email.getText().toString().isEmpty() && !password.getText().toString().isEmpty() &&
+                            !passwordConf.getText().toString().isEmpty()) {
+                        if (password.getText().toString().equals(passwordConf.getText().toString())) {
+                            llenarMapa(map);
+                            map.put("funcion", "registro");
+                            map.put("tipo","Tecnico");
+                            llamarWebService(map,0);
+                        }else{
+                            Toast.makeText(getContext(), "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+                        }
+                    }else {
+                        Toast.makeText(getContext(), "Llene todos los campos", Toast.LENGTH_SHORT).show();
                     }
-                }else {
-                    Toast.makeText(getContext(), "Llene todos los campos", Toast.LENGTH_SHORT).show();
+
+                }else{
+                    //
+                    if (!nombre.getText().toString().isEmpty() && !apellidos.getText().toString().isEmpty()
+                            && !email.getText().toString().isEmpty() ) {
+                        llenarMapa(map);
+                        map.put("funcion", "editar");
+                        map.put("id",Integer.toString(id));
+                        map.put("tipo","Tecnico");
+                        llamarWebService(map,1);
+                    }else {
+                        Toast.makeText(getContext(), "Llene todos los campos", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
+
             }
         });
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cargarImagen();
+                bandera=true;
             }
         });
         return view;
     }
+    public void  setDetalles(JSONObject jsonObject){
+        try {
+            JSONArray jsonArray = jsonObject.getJSONArray("lista");
+            nombre.setText(jsonArray.getJSONObject(0).getString("nombre"));
+            apellidos.setText(jsonArray.getJSONObject(0).getString("apellidos"));
+            telefono.setText(jsonArray.getJSONObject(0).getString("telefono"));
+            email.setText(jsonArray.getJSONObject(0).getString("user"));
+            rango.setText(jsonArray.getJSONObject(0).getString("rango"));
+            imagenString=jsonArray.getJSONObject(0).getString("imagen");
+           // String base64Image = base64String;
 
-    public void llamarWebService(Map<String, String> map) {
+            byte[] decodedString = Base64.decode(imagenString, Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+            imageView.setImageBitmap(decodedByte);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    public void llenarMapa(Map map){
+        map.clear();
+        map.put("nombre", nombre.getText().toString());
+        map.put("apellidos", apellidos.getText().toString());
+
+        map.put("telefono", telefono.getText().toString());
+        map.put("user", email.getText().toString());
+
+        map.put("rango", rango.getText().toString());
+
+        if(bandera)
+            map.put("imagen", imagenString);
+        else
+            map.put("imagen", "");
+        if(!editar){
+            map.put("tipo", "Tecnico");
+            map.put("pass", password.getText().toString());
+        }else {
+            map.put("pass", "");
+        }
+    }
+    public void llamarWebService(Map<String, String> map, final int t) {
         String url = "https://www.solfeggio528.com/vanken/webservice.php";
         // Request a string response from the provided URL.
         JSONObject jo = new JSONObject(map);
@@ -139,16 +209,32 @@ public class AgregarTecnicoFragment extends Fragment {
                         (Request.Method.POST, url, jo, new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject jsonObject) {
-
                                 try {
-                                    Toast.makeText(getContext(), jsonObject.toString(), Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(getContext(), jsonObject.toString(), Toast.LENGTH_SHORT).show();
+                                    switch (t){
+                                        case 0:
+                                            if (jsonObject.getBoolean("respuesta")) {
+                                                Toast.makeText(getContext(), "Técnico agregado correctamente", Toast.LENGTH_SHORT).show();
+                                                NavHostFragment.findNavController(AgregarTecnicoFragment.this).navigate(R.id.nav_tecnicos);
+                                            }else
+                                                Toast.makeText(getContext(), "Hubo un error al agregar al técnico", Toast.LENGTH_SHORT).show();
+                                            break;
+                                        case 1:
 
-                                    if (jsonObject.getBoolean("respuesta")) {
-                                        Toast.makeText(getContext(), "Técnico agregado correctamente", Toast.LENGTH_SHORT).show();
-                                        NavHostFragment.findNavController(AgregarTecnicoFragment.this).navigate(R.id.nav_tecnicos);
-                                    }else{
-                                        Toast.makeText(getContext(), "Hubo un error al agregar al técnico", Toast.LENGTH_SHORT).show();
+                                            if (jsonObject.getBoolean("respuesta")) {
+                                                Toast.makeText(getContext(), "Técnico modificado correctamente", Toast.LENGTH_SHORT).show();
+                                                NavHostFragment.findNavController(AgregarTecnicoFragment.this).navigate(R.id.nav_tecnicos);
+
+                                            }else
+                                                Toast.makeText(getContext(), "Hubo un error al editar al técnico", Toast.LENGTH_SHORT).show();
+                                            break;
+                                        case 2:
+                                            if (jsonObject.getBoolean("respuesta")) {
+                                               setDetalles(jsonObject);
+                                            }
+                                            break;
                                     }
+
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -172,6 +258,11 @@ public class AgregarTecnicoFragment extends Fragment {
         return s;
     }
     public void cargarImagen(){
+        /*Intent intent=new Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/");
+        startActivityForResult(intent.createChooser(intent,"Seleccione"),10);*/
+
+
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -179,6 +270,8 @@ public class AgregarTecnicoFragment extends Fragment {
                 Intent.createChooser(intent, "Seleccione una imagen"),
                 10);
     }
+
+
 
     public void onActivityResult(int requestCode, int resultCode,
                                  Intent imageReturnedIntent) {
@@ -197,7 +290,7 @@ public class AgregarTecnicoFragment extends Fragment {
                         if (selectedPath != null) {
                             InputStream imageStream = null;
                             try {
-                                imageStream = getActivity().getContentResolver().openInputStream(
+                                imageStream = getContext().getContentResolver().openInputStream(
                                         selectedImage);
                             } catch (FileNotFoundException e) {
                                 e.printStackTrace();
@@ -209,7 +302,7 @@ public class AgregarTecnicoFragment extends Fragment {
                             // Ponemos nuestro bitmap en un ImageView que tengamos en la vista
 
                             imageView.setImageBitmap(bmp);
-                            bandera=true;
+
                             imagenString=convertirImagenString(bmp);
                         }
                     }
@@ -217,4 +310,6 @@ public class AgregarTecnicoFragment extends Fragment {
                 break;
         }
     }
+
+
 }

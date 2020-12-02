@@ -15,7 +15,7 @@ import com.example.vanken.R;
 import java.util.ArrayList;
 
 public class AdaptadorItemTecnico extends RecyclerView.Adapter<AdaptadorItemTecnico.ViewHolderDatos>
-        implements View.OnClickListener{
+        implements View.OnClickListener, View.OnLongClickListener{
     ArrayList<Persona> arrayList;
     Context context;
     private View.OnClickListener listener;
@@ -29,20 +29,13 @@ public class AdaptadorItemTecnico extends RecyclerView.Adapter<AdaptadorItemTecn
             listener.onClick(v);
         }
     }
-    /*@Override
-    public boolean onLongClick(View v) {
-        if(longClickListener!=null){
-            longClickListener.onLongClick(v);
-        }
-        return true;
-    }*/
     @NonNull
     @Override
     public ViewHolderDatos onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tecnico,null,false);
         view.setOnClickListener(this);
-        //view.setLongClickable(true);
-        //view.setOnLongClickListener(this);
+        view.setLongClickable(true);
+        view.setOnLongClickListener(this);
         context=parent.getContext();
         return new AdaptadorItemTecnico.ViewHolderDatos(view);
     }
@@ -58,9 +51,17 @@ public class AdaptadorItemTecnico extends RecyclerView.Adapter<AdaptadorItemTecn
     public void setOnClickListener(View.OnClickListener listener){//asociamos el listener del fragment al que estamos
         this.listener=listener;                                     //construyend
     }
-    /*public void setOnLongClickListener(View.OnLongClickListener listener){
-        this.longClickListener=listener;
-    }*/
+    public void setLongClickListener(View.OnLongClickListener listener){//asociamos el listener del fragment al que estamos
+        this.longClickListener=listener;                                     //construyend
+    }
+    @Override
+    public boolean onLongClick(View v) {
+        if(longClickListener!=null){
+            longClickListener.onLongClick(v);
+        }
+        return true;
+    }
+
 
     public class ViewHolderDatos extends RecyclerView.ViewHolder {
         TextView nombre,telefono, cal;

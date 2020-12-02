@@ -23,6 +23,7 @@
                 android:layout_gravity="center"
                 android:foregroundGravity="center"
                 android:layout_marginBottom="@dimen/margin"
+                android:src="@mipmap/user_icon"
                 android:id="@+id/imgVDetalleTecnico"></ImageView>
             <TextView
                 android:layout_width="match_parent"

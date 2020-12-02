@@ -27,6 +27,7 @@ import com.example.vanken.Adaptadores.AdaptadorItemTecnico;
 import com.example.vanken.Modelos.Persona;
 import com.example.vanken.Modelos.VolleySingleton;
 import com.example.vanken.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,11 +47,13 @@ public class TecnicosFragment extends Fragment {
     private VolleySingleton volleySingleton;
     private Switch aSwitch;
     private Map map;
+    private View root;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         tecnicosViewModel =
                 ViewModelProviders.of(this).get(TecnicosViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_tecnicos, container, false);
+        root = inflater.inflate(R.layout.fragment_tecnicos, container, false);
+
         recyclerViewTecnicos=(RecyclerView)root.findViewById(R.id.recyclerListaTecnicos);
         aSwitch=(Switch)root.findViewById(R.id.switchMejorTecnico);
         //Codigo generado
@@ -59,6 +62,7 @@ public class TecnicosFragment extends Fragment {
             public void onChanged(@Nullable String s) {
             }
         });
+        aSwitch.setChecked(false);
         map=new HashMap();
         map.put("funcion", "tecnicosAlfabeto");
         llamarWebService(map,0);
@@ -126,37 +130,55 @@ public class TecnicosFragment extends Fragment {
                    NavHostFragment.findNavController(TecnicosFragment.this).navigate(R.id.detalleTecnico,bundle);
                }
            });
-            /*adaptador.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    Toast.makeText(getContext(),"Hola", Toast.LENGTH_SHORT).show();
-                    //crearAlertDialog(personas.get(recyclerViewTecnicos.getChildAdapterPosition(v)).getId());
-                    return true;
-                }
-            });*/
+           adaptador.setLongClickListener(new View.OnLongClickListener() {
+               @Override
+               public boolean onLongClick(View v) {
+                   crearAlertDialog(personas.get(recyclerViewTecnicos.getChildAdapterPosition(v)).getId(),
+                           personas.get(recyclerViewTecnicos.getChildAdapterPosition(v)).getNombre().concat(" ").concat(
+                                   personas.get(recyclerViewTecnicos.getChildAdapterPosition(v)).getApellido()
+                           ));
+                   //Toast.makeText(getContext(), personas.get(recyclerViewTecnicos.getChildAdapterPosition(v)).getNombre(),Toast.LENGTH_SHORT).show();
+                   return true;
+               }
+           });
+
            recyclerViewTecnicos.setAdapter(adaptador);
        } catch (JSONException e) {
            e.printStackTrace();
        }
    }
-    public void crearAlertDialog(int id){
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-// Add the buttons
-        builder.setMessage("¿Que desea hacer con "+personas.get(id).getNombre()+" "+personas.get(id).getApellido()+"?");
-        builder.setPositiveButton(R.string.editar, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // User clicked OK button
-            }
-        });
-        builder.setNegativeButton(R.string.eliminar, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // User cancelled the dialog
-            }
-        });
+    public void crearAlertDialog(final int id, String nombre){
+
+        // Add the buttons
+        //builder.setMessage("¿Que desea hacer con "+personas.get(id).getNombre()+" "+personas.get(id).getApellido()+"?");
+
 // Set other dialog properties
 
 // Create the AlertDialog
-        AlertDialog dialog = builder.create();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("¿Qué desea hacer con "+nombre.concat("?"))
+                .setNegativeButton("Eliminar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Toast.makeText(getContext(), "Eliminar", Toast.LENGTH_SHORT).show();
+                        map.clear();
+                        map.put("funcion", "eliminarTecnico");
+                        map.put("id", Integer.parseInt(String.valueOf(id)));
+                        llamarWebService(map,2);
+                        map.put("funcion", "tecnicosAlfabeto");
+                        llamarWebService(map,0);
+                    }
+                })
+                .setPositiveButton("Editar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("id", id);
+                        NavHostFragment.findNavController(TecnicosFragment.this).navigate(R.id.agregarTecnico,bundle);
+                    }
+                });
+
+        builder.create().show();
     }
        public void llamarWebService(Map<String, String> map, final int t){
         String url="https://www.solfeggio528.com/vanken/webservice.php";
@@ -173,6 +195,11 @@ public class TecnicosFragment extends Fragment {
                                                     setListaRecycler(jsonObject); break;
                                         case 1: if(jsonObject.getBoolean("respuesta"))
                                             setListaRecycler(jsonObject); break;
+                                        case 2: if(jsonObject.getBoolean("respuesta"))
+                                            Toast.makeText(getContext(), "Técnico eliminado", Toast.LENGTH_SHORT).show();break;
+                                            case 3: if(jsonObject.getBoolean("respuesta")){
+
+                                            }break;
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();

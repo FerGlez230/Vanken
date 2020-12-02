@@ -1,9 +1,13 @@
 package com.example.vanken.ui.tecnicos;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +15,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.vanken.AgregarTecnicoFragment;
+import com.example.vanken.Modelos.VolleySingleton;
 import com.example.vanken.R;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,9 +42,10 @@ public class DetalleTecnicoFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     // TODO: Rename and change types of parameters
-private int id=-1;
+private int id=0;
 private ImageView imageView;
 private TextView nombre, apellido, telefono, username, rango;
+VolleySingleton volleySingleton;
     public DetalleTecnicoFragment() {
         // Required empty public constructor
     }
@@ -67,6 +86,65 @@ private TextView nombre, apellido, telefono, username, rango;
         rango=(TextView)view.findViewById(R.id.textViewRangoDetalleTecnico);
         imageView=(ImageView)view.findViewById(R.id.imgVDetalleTecnico);
         username=(TextView)view.findViewById(R.id.textViewUserDetalleTecnico);
+        if(id!=0){
+            Toast.makeText(getContext(), Integer.toString(id),Toast.LENGTH_SHORT).show();
+            Map map=new HashMap<>();
+            map.put("funcion", "detallesTecnico");
+            map.put("id",Integer.toString( id));
+            llamarWebService(map);
+        }
+
         return view;
+    }
+    public void llamarWebService(Map<String, String> map) {
+        String url = "https://www.solfeggio528.com/vanken/webservice.php";
+        // Request a string response from the provided URL.
+        JSONObject jo = new JSONObject(map);
+        volleySingleton.getInstance(getContext()).addToRequestQueue(
+                new JsonObjectRequest
+                        (Request.Method.POST, url, jo, new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject jsonObject) {
+
+                                try {
+                                   //Toast.makeText(getContext(), jsonObject.toString(), Toast.LENGTH_SHORT).show();
+                                    if (jsonObject.getBoolean("respuesta")) {
+                                        setDetalles(jsonObject);
+                                    }
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                String errorCause = error.toString();
+                                Toast.makeText(getContext(), errorCause, Toast.LENGTH_LONG).show();
+                            }
+                        })
+        );
+    }
+    public void setDetalles(JSONObject jsonObject) {
+        try {
+            JSONArray jsonArray = jsonObject.getJSONArray("lista");
+
+            nombre.setText(jsonArray.getJSONObject(0).getString("nombre"));
+            apellido.setText(jsonArray.getJSONObject(0).getString("apellidos"));
+            telefono.setText(jsonArray.getJSONObject(0).getString("telefono"));
+            username.setText(jsonArray.getJSONObject(0).getString("user"));
+            rango.setText(jsonArray.getJSONObject(0).getString("rango"));
+            String base64String=jsonArray.getJSONObject(0).getString("imagen");
+            String base64Image = base64String;
+
+            byte[] decodedString = Base64.decode(base64Image, Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+            imageView.setImageBitmap(decodedByte);
+            //Picasso.with(getContext()).load(cadena+ jsonObject.getString("imagen")).into(imageView);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -7,12 +7,14 @@
     <string name="confirmarPassword">Confirmar contraseña</string>
     <string name="login_failed">"Login failed"</string>
     <string name="nombre">Nombre</string>
+    <string name="serviciosSemanales">Servicios técnicos semanales</string>
+    <string name="ganancias">Ganancias semanales</string>
     <string name="apellidos">Apellidos</string>
     <string name="title_activity_main_admin">MainAdmin</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Administrador</string>
-    <string name="nav_header_subtitle">Fatima Gonzalez</string>
+    <string name="nav_header_subtitle">Leonardo Martínez</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Configuraciones</string>
     <string name="mejorTecnico">Mejor técnico  </string>

@@ -47,6 +47,5 @@
     <fragment
         android:id="@+id/agregarTecnico"
         android:name="com.example.vanken.AgregarTecnicoFragment"
-        android:label="@string/agregarTecnico"
         tools:layout="@layout/fragment_agregar_tecnico" />
 </navigation>
